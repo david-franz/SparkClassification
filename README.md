@@ -1,5 +1,5 @@
 # SparkClassification
-# download dataset from here: https://archive.org/download/android-malware
+# dataset: https://archive.org/download/android-malware
 
 hdfs dfs -mkdir /input/
 
