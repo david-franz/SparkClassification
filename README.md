@@ -1,16 +1,49 @@
-# SparkClassification
-# dataset: https://archive.org/download/android-malware
+# Predicting Malware Class of Android Apps Based on Network Traffic Features
 
-hdfs dfs -mkdir /input/
+In this project, the goal is to develop a machine learning model capable of detecting whether an Android application is malware or not, based on features extracted from network traffic data. This involves several key steps including data pre-processing, feature engineering, model training, evaluation, and comparison of different model configurations.
 
-hdfs dfs -mkdir /output/
+## Details of Input Data
 
-hdfs dfs -put Android_Malware.csv /input
+• Data Source: The dataset used for this task is from Kaggle- the Android Malware Detection dataset. This dataset contains a variety of network traffic data relevant to Android malware detection. The dataset was slightly processed (to remove spaces in the column names), and the processed dataset can be downloaded here: https://archive.org/download/android-malware
 
-mkdir compiled/
+• Data Size: This dataset is approximately 200MB.
 
-javac -cp lib/spark -d compiled/ AndroidMalwareDetector.java
+• Original Number of Features: The original dataset comprises of 83 features. In our project,
+we use a filter feature selection to bring the input data feature size to 30.
 
-jar cvf AndroidMalwareDetector.jar -C compiled/ .
+• Instances: The 83 features represent various bits of data about network traffic. The instances
+themselves are labelled one of four classes: Android_Adware (147443 instances),
+Android_Scareware (117082), Android_SMS_Malware (67397) and Benign (23708).
 
-spark-submit --class malwareDetection.AndroidMalwareDetector --master yarn --deploy-mode cluster AndroidMalwareDetector.jar /input/Android_Malware.csv /output
+• Feature Types: The features in the dataset are of mixed types:
+  
+  o NumericalFeatures:Quantitativeattributessuchasportnumbers.
+  
+  o CategoricalFeatures:Qualitativeattributessuchasflags.
+
+• Missing Values: Some features have missing values (null) for some of their data entries. For
+these, we replace the null values for 0.0.
+
+Expected Output
+
+The primary objective is to build a trained machine learning model that can accurately classify network connections as one of the four classes based on the extracted features. The performance of the model will be evaluated using metrics such as accuracy on both the training and test datasets. The specific outputs include:
+
+• Model:
+  
+  § A trained Random Forest classifier capable of making predictions based on network traffic features. Four different possible classes.
+  
+  § Create several models for using normalisation and PCA or not. Four different models in total with different pipelines setup.
+
+• Accuracy Metrics:
+  
+  § Training Accuracy: The accuracy of the model on the training dataset, indicating how well the model has learned from the training data.
+
+  § Test Accuracy: The accuracy of the model on the test dataset, indicating the model’s generalization ability to unseen data.
+
+  § Run Times: The time taken to train and evaluate the model in each run, providing an understanding of the computational efficiency of the different model configurations.
+   
+• Statistical Measures:
+  
+  § Minimum, Maximum, Average Accuracy: Metrics to capture the range and central tendency of the model’s performance across multiple runs.
+
+  § Standard Deviation of Accuracy: A measure of the variability in the model’s performance, providing insights into the consistency of the model.
