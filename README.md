@@ -5,7 +5,7 @@ hdfs dfs -mkdir /input/
 
 hdfs dfs -mkdir /output/
 
-hdfs dfs -put Android_Malware.csv/input/
+hdfs dfs -put Android_Malware.csv /input
 
 mkdir compiled/
 
